@@ -1,7 +1,5 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Fragment } from 'react'
-import { News } from './News'
 
 
 const Tabs: React.FC = () => {
