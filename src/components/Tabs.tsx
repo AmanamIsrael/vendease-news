@@ -1,5 +1,6 @@
 import { Tab as HTab } from '@headlessui/react'
 import { Fragment } from 'react'
+import { News } from './News'
 
 const Tabs: React.FC = () => {
     return (
@@ -16,8 +17,10 @@ const Tabs: React.FC = () => {
                     )}
                 </HTab>
             </HTab.List>
-            <HTab.Panels className="bg-grey min-h-50px w-full p-3">
-                <HTab.Panel>Content 1</HTab.Panel>
+            <HTab.Panels className="min-h-50px w-full p-3">
+                <HTab.Panel>
+                    <News />
+                </HTab.Panel>
                 <HTab.Panel>Content 2</HTab.Panel>
             </HTab.Panels>
         </HTab.Group>
