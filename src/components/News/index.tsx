@@ -14,7 +14,7 @@ interface iNewsComponentProps {
 
 export const News: React.FC<iNewsComponentProps> = ({ data, onBookMark, isbookmarked, onDelete }) => {
     return (
-        <div className='p-4 mb-[16px] bg-grey max-h-[200px] w-full gap-2 relative'>
+        <div className='p-4 mb-[16px] bg-grey min-h-[150px] h-max w-full gap-2 relative'>
             {/* <div className='w-full h-full'>
                 <Image src={data.urlToImage || ""} alt="news thumbnail" width={186.66} height={168} />
             </div> */}

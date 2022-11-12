@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Bookmark } from '../components/Bookmark'
 import useNewsContext from '../hooks/useNewsContext'
 import MainLayout from '../layout/MainLayout'
@@ -15,7 +15,7 @@ const Bookmarks: NextPage = () => {
                         <Bookmark key={currBookmark.id} data={currBookmark} onDelete={() => deleteFromBookmarked(currBookmark.id)} />
                     ))
                 }
-            </> : <p className='text-center'>You havent made any bookmark yet.</p>}
+            </> : <p className='text-center'>😔 You havent made any bookmark yet.</p>}
         </MainLayout>
     )
 }
