@@ -1,16 +1,27 @@
 import React from 'react'
-import Tabs from '../components/Tabs'
+import { News } from '../components/News'
+import useNewsContext from '../hooks/useNewsContext'
+import MainLayout from '../layout/MainLayout'
+import { iNews } from '../types'
+
+const allNews: iNews[] = [{ id: "1", author: "Amanam Israel", title: 'my first bookmark', description: "this is the description" }, { id: "2", author: "Amanam Israel", title: 'my second bookmark', description: "this is second the description" }]
 
 const Home = () => {
+
+  const { addToBookmarked, bookmarked } = useNewsContext()
+
+  const isBookmarked = (id: string) => bookmarked.find(news => news.id === id) ? true : false
+
   return (
-    <main>
-      <section className='w-screen h-screen pt-[32px]'>
-        <p className='leading-44.78 text-4xl text-green mb-[32px] capitalise text-center'>News Feed</p>
-        <div className='grid gap-[32px] justify-items-center md:w-[600px] w-[350px] mx-auto'>
-          <Tabs />
-        </div>
-      </section>
-    </main>
+    <MainLayout>
+      <div className='w-full'>
+        {
+          allNews.map(currNews => (
+            <News key={currNews.id} isbookmarked={isBookmarked(currNews.id)} data={currNews} onBookMark={() => addToBookmarked(currNews)} />
+          ))
+        }
+      </div>
+    </MainLayout>
   )
 }
 
