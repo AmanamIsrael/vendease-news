@@ -1,16 +1,57 @@
-import React from 'react'
-import Tabs from '../components/Tabs'
+import React, { useEffect, useState } from 'react'
+import Apis from '../api/api'
+import { News } from '../components/News'
+import Spinner from '../components/Spinner'
+import useNewsContext from '../hooks/useNewsContext'
+import MainLayout from '../layout/MainLayout'
+import { iNews } from '../types'
+
+
 
 const Home = () => {
+  const [allNews, setAllNews] = useState<iNews[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    getAllNews()
+  }, [])
+
+  const getAllNews = async () => {
+    setIsLoading(true);
+    try {
+      const news = await Apis.getAllNews();
+      const newNews = news.articles.map((n: iNews, idx: number) => { return { ...n, id: idx.toString() } })
+      setAllNews(newNews)
+      setIsLoading(false)
+    }
+    catch (e) {
+      console.error(e)
+      setIsLoading(false)
+    }
+  }
+  const { addToBookmarked, bookmarked } = useNewsContext()
+
+  const isBookmarked = (id: string) => bookmarked.find(news => news.id === id) ? true : false
+
   return (
-    <main>
-      <section className='w-screen h-screen pt-[32px]'>
-        <p className='leading-44.78 text-4xl text-green mb-[32px] capitalise text-center'>News Feed</p>
-        <div className='grid gap-[32px] justify-items-center w-[350px] mx-auto'>
-          <Tabs />
-        </div>
-      </section>
-    </main>
+    <MainLayout>
+      <div className='w-full'>
+        {
+          isLoading ?
+            <div className='flex justify-center'>
+              <Spinner />
+            </div>
+            : <>
+              {
+                allNews.map(currNews => (
+                  <News key={currNews?.id} isbookmarked={isBookmarked(currNews.id)} data={currNews} onBookMark={() => addToBookmarked(currNews)} />
+                ))
+              }
+            </>
+        }
+
+      </div>
+    </MainLayout>
   )
 }
 
