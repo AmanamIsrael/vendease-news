@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: "jit",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
@@ -11,6 +12,9 @@ module.exports = {
         green: "#53FF8D",
         grey: "#252525",
         grey2: "#828282",
+      },
+      lineHeight: {
+        44.78: "44.78px",
       },
     },
   },
