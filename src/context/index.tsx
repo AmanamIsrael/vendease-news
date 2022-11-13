@@ -15,12 +15,20 @@ interface NewsProviderProps {
 }
 
 const NewsProvider: React.FC<NewsProviderProps> = ({ children }) => {
-    const [bookmarked, setBookmarked] = React.useState<iNews[]>([])
+    let fromLocalStorage = null
+    if (typeof window !== 'undefined') {
+        fromLocalStorage = localStorage.getItem('__bookmarks')
+    }
+    const parsed: iNews[] | null = fromLocalStorage ? JSON.parse(fromLocalStorage) : null
+
+    const [bookmarked, setBookmarked] = React.useState<iNews[]>(() => parsed ? parsed : [])
 
     const addToBookmarked = (news: iNews) => {
-        const isAlreadyBookmarked = !bookmarked.find(item => item.id === news.id)
-        if (isAlreadyBookmarked) {
-            setBookmarked(state => ([...state, news]))
+        const isNotAlreadyBookmarked = !bookmarked.find(item => item.id === news.id)
+        if (isNotAlreadyBookmarked) {
+            const update = [...bookmarked, news]
+            setBookmarked(update)
+            localStorage.setItem('__bookmarks', JSON.stringify(update))
         }
         else {
             deleteFromBookmarked(news.id)
@@ -29,7 +37,9 @@ const NewsProvider: React.FC<NewsProviderProps> = ({ children }) => {
     }
 
     const deleteFromBookmarked = (newsId: string) => {
-        setBookmarked(state => state.filter(n => n.id !== newsId))
+        const update = bookmarked.filter(n => n.id !== newsId)
+        setBookmarked(update)
+        localStorage.setItem('__bookmarks', JSON.stringify(update))
     }
 
     return (
